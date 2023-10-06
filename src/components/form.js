@@ -18,7 +18,7 @@ const PostRequest = () => {
     e.preventDefault()
     try {
       const config = { 'content-type': 'application/x-www-form-urlencoded', 'accept': 'application/json' };
-      const { data } = await axios("https://localhost:4000", config, "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=" + apiKey);
+      const { data } = await axios(url, config, "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=" + apiKey);
       console.log(data)
     } catch (error) {
         console.log(error.response);
