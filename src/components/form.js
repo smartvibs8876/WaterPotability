@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
-const url = 'https://private.us-south.ml.cloud.ibm.com/ml/v4/deployments/water_potability_classifier_v1/predictions?version=2021-05-01';
-const apiKey = 'u2EiEsPgoln52L9pzW8XSMMeG32iHIX9l0FVBlcu1ghm';
 
 const PostRequest = () => {
   const [pH, setpH] = useState('');
@@ -13,45 +10,21 @@ const PostRequest = () => {
   const [organicCarbon, setOrganinCarbon] = useState('');
   const [trihalomethanes, setTrihalomethanes] = useState('');
   const [turbidity, setTurbidity] = useState('');
-  
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    // try {
-    //   const config = { 'content-type': 'application/x-www-form-urlencoded', 'accept': 'application/json' };
-    //   const { data } = await axios(url, config, "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=" + apiKey);
-    //   console.log(data)
-    // } catch (error) {
-    //     console.log(error.response);
-    // }
-    fetch("https://iam.cloud.ibm.com/identity/token?grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=u2EiEsPgoln52L9pzW8XSMMeG32iHIX9l0FVBlcu1ghm", {
+    //'{"input_data": [{"fields": ["ph","Hardness","Solids","Chloramines","Sulfate","Conductivity","Organic_carbon","Trihalomethanes","Turbidity"], "values": [[1,2,3,4,5,6,7,8,9]]}]}'
+    const requestBody = {
+      "input_data": [{"fields": ["ph","Hardness","Solids","Chloramines","Sulfate","Conductivity","Organic_carbon","Trihalomethanes","Turbidity"], "values": [[pH,hardness,solids,chloramines,sulfate,conductivity,organicCarbon,trihalomethanes,turbidity]]}]
+    }
+    fetch("http://localhost:2000/predict", {
       method: "post",
-      mode: "no-cors"
-    })
-    .then( (response) => { 
-    console.log(response.text())
-  });
-  //   const response = fetch("https://iam.cloud.ibm.com/identity/token?grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=u2EiEsPgoln52L9pzW8XSMMeG32iHIX9l0FVBlcu1ghm", {
-  //   method: "POST",
-  //   headers: {
-  //       "Accept": "application/json",
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //   },
-  //   body: JSON.stringify({})
-  // })
-  // const response = fetch("https://iam.cloud.ibm.com/identity/token", {
-  //   method: "POST",
-  //   mode: "no-cors",
-  //   headers: {
-  //       "Accept": "application/json",
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //   },
-  //   body: JSON.stringify({
-  //     grant_type: "urn:ibm:params:oauth:grant-type:apikey",
-  //     apikey: "u2EiEsPgoln52L9pzW8XSMMeG32iHIX9l0FVBlcu1ghm"
-  //   })
-  // })
-    //console.log(response.json())
-    // Authorization: `Bearer: ${token}`,
+      body: JSON.stringify(requestBody)
+    }).then(response => response.json()).then(data=>{ console.log(data)})
+     .catch(err =>{
+      console.log(err)
+    });
+
     console.log(pH, hardness,solids,  chloramines,  sulfate, conductivity,  organicCarbon, trihalomethanes, turbidity);
   };
 
