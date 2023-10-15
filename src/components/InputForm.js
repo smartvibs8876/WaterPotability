@@ -40,10 +40,10 @@ const InputForm = () => {
       //setResults({value1 : "1"})
       setResults(
         {
-           prediction: (data.predictions[0].values[0][0])? "Not Potable": "Potable",
+           prediction: parseInt(data.predictions[0].values[0][0])? "potable": "not potable",
            probability: parseFloat(data.predictions[0].values[0][1][0])*100
         });
-      console.log(data.predictions[0].values[0][1][0])
+      console.log(data.predictions[0].values[0][0])
     })
      .catch(err =>{
       console.log(err)
@@ -54,67 +54,135 @@ const InputForm = () => {
    <React.Fragment> 
       <div>
       <h2 className='text-center'>Water potability test</h2>
-        { !results && (
-           <form className="form">
-             <div className="form-row">
-               <label className="form-label">PH</label>
-               <input className="" type="text" name="" required="" value={pH} onChange={(e) => setpH(e.target.value)}/> 
-             </div>
-             <div className="form-row">
-               <label classname="form-label">Hardness</label>
-               <input type="text" name="" required="" value={hardness} onChange={(e) => setHardness(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className="form-label">Solids</label>
-               <input type="text" name="" required="" value={solids} onChange={(e) => setSolids(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className="form-label">Chloramines</label>
-               <input type="text" name="" required="" value={chloramines} onChange={(e) => setChloramines(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className='form-label'>Sulfate</label>
-               <input type="text" name="" required="" value={sulfate} onChange={(e) => setSulfate(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className="form-label">Conductivity</label>
-               <input type="text" name="" required="" value={conductivity} onChange={(e) => setConductivity(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className="form-label">Organic Carbon</label>
-               <input type="text" name="" required="" value={organicCarbon} onChange={(e) => setOrganinCarbon(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className="form-label">Trihalomethanes</label>
-               <input type="text" name="" required="" value={trihalomethanes} onChange={(e) => setTrihalomethanes(e.target.value)}/>
-             </div>
-             <div className="form-row">
-               <label className="form-row">Turbidity</label>
-               <input type="text" name="" required="" value={turbidity} onChange={(e) => setTurbidity(e.target.value)}/>
-             </div>
-             <Button variant='secondary' type="submit" onClick={handleSubmit}>Predict Water Quality</Button>
-          </form>  )
+      { !results && (
+        <form className='form' onSubmit={handleSubmit}>
+          <div className='form-row'>
+            <label htmlFor='pH' className='form-label'>
+              pH
+            </label>
+           <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={pH}
+          onChange={(e) => setpH(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='hardness' className='form-label'>
+          Hardness
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={hardness}
+          onChange={(e) => setHardness(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='solids' className='form-label'>
+          Solids
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={solids}
+          onChange={(e) => setSolids(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='chloramines' className='form-label'>
+          Chloramines
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={chloramines}
+          onChange={(e) => setChloramines(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='sulphates' className='form-label'>
+          Sulphates
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={sulfate}
+          onChange={(e) => setSulfate(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='email' className='form-label'>
+          Conductivity
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={conductivity}
+          onChange={(e) => setConductivity(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='email' className='form-label'>
+          Organic Carbon
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={organicCarbon}
+          onChange={(e) => setOrganinCarbon(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='email' className='form-label'>
+          Trihalomethanes
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={trihalomethanes}
+          onChange={(e) => setTrihalomethanes(e.target.value)}
+        />
+      </div>
+      <div className='form-row'>
+        <label htmlFor='email' className='form-label'>
+          Turbidity
+        </label>
+        <input
+          type='text'
+          className='form-input'
+          id='pH'
+          value={turbidity}
+          onChange={(e) => setTurbidity(e.target.value)}
+        />
+      </div>
+      <button type='submit' variant="secondary" className='btn-block'>
+        Check Potability
+      </button>  
+       </form>)
         };
       </div>
       { results &&  
-         (<Modal.Dialog> 
-          <Modal.Header> 
-          <Modal.Title> 
-            Water Potability Test
-          </Modal.Title> 
-         </Modal.Header> 
-        <Modal.Body> 
-        <p> 
+        <section>
+         <form className='form'>
+         <p> 
           Water is  {results.prediction} with {results.probability}% confidence 
         </p> 
-         </Modal.Body> 
-         <Modal.Footer> 
          <Button variant="secondary" onClick={(e) => setResults(null)}> 
           Close 
-         </Button> 
-        </Modal.Footer> 
-        </Modal.Dialog>)
-  }
+         </Button>
+
+         </form>
+        </section>  
+      }
    </React.Fragment>
 );
 };
