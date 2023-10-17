@@ -28,7 +28,6 @@ const InputForm = () => {
                }
            ]
     }
-    console.log(requestBody)
     fetch("http://localhost:2000/predict", {
       method: "post",
       headers: {
@@ -37,13 +36,11 @@ const InputForm = () => {
       },
       body: JSON.stringify(requestBody)
     }).then(response => response.json()).then(data=>{ 
-      //setResults({value1 : "1"})
       setResults(
         {
            prediction: parseInt(data.predictions[0].values[0][0])? "potable": "not potable",
-           probability: parseFloat(data.predictions[0].values[0][1][0])*100
+           probability: parseInt(data.predictions[0].values[0][0]) ? parseFloat(data.predictions[0].values[0][1][1])*100 : parseFloat(data.predictions[0].values[0][1][0])*100
         });
-      console.log(data.predictions[0].values[0][0])
     })
      .catch(err =>{
       console.log(err)
@@ -176,9 +173,9 @@ const InputForm = () => {
          <p> 
           Water is  {results.prediction} with {results.probability}% confidence 
         </p> 
-         <Button variant="secondary" onClick={(e) => setResults(null)}> 
+         <button variant="secondary" className='btn-block' onClick={(e) => setResults(null)}> 
           Close 
-         </Button>
+         </button>
 
          </form>
         </section>  
